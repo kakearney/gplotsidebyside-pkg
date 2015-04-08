@@ -91,6 +91,7 @@ thetamid = (theta(1:end-1)+theta(2:end))./2;
 if ~isempty(Opt.nval)
     relwidthnode = interp1(lims, [0 1], Opt.nval, 'linear', 'extrap');
     dthetanode = (relwidthnode./relsum) * 2 * pi;
+    dthetanode = reshape(dthetanode,1,[]);
 end
 
 % Disentangle which is which new subnode corresponds to the source and sink
