@@ -51,6 +51,7 @@ Opt.axis = gca;
 Opt.nval = [];
 Opt.rnode = [1.025 1.075];
 Opt.nb = 20;
+Opt.texttype = 'simple';
 
 Opt = parsepv(Opt, varargin);
 
@@ -74,7 +75,8 @@ nlink = nnz(adj);
 tmp = cat(2, [ii jj kk; jj ii kk], [zeros(nlink,1); ones(nlink,1)], repmat(adj(adj~=0),2,1));
 [srt, isrt] = sortrows(tmp, [1 4 2]);
 
-lims = minmax(srt(:,end), 'expand', 0.01);
+lims = minmax(srt(:,end), 'expand', 0.001);
+% lims = minmax(srt(:,end));
 if lims(1) == lims(2)
     relwidth = ones(size(srt(:,end)));
 else
@@ -188,13 +190,24 @@ if ~isempty(Opt.nval)
 end
 
 h.sep = plot(xsep', ysep', 'k');
-h.txt = text(xtext, ytext, Opt.nodelabel, 'horiz', 'center');
+
+switch Opt.texttype
+    case 'simple'
+        h.txt = text(xtext, ytext, Opt.nodelabel, 'horiz', 'center');
+    case 'optimized'
+        dth = diff([0; thsep]);
+        tmp = labelpie(dth, Opt.nodelabel, 'th0', 0, 'dir', 'cw', 'ax', gca, 'fontsize', 8);
+        h.txt = tmp.txt;
+        h.txtln = tmp.ln;
+end
 
 setappdata(h.edge, 'index', srt(src,1:3));
 
 A.lims = lims;
 A.thmid = thmid;
 A.edgeindex = srt(src,1:3);
+A.thfrac = [0; thsep];
+% A.relwidth = relwidth;
 
 
 
