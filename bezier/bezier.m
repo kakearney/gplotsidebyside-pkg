@@ -31,7 +31,7 @@ function out = bezier(coords, t)
 % Check input
 %-------------------------
 
-error(nargchk(1,2,nargin));
+narginchk(1,2);
 
 npoints = size(coords,1);
 
