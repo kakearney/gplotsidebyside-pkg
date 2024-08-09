@@ -43,17 +43,18 @@ function [h, A] = gplotsidebyside(adj, varargin)
 
 nnode = size(adj,1);
 
-Opt.nodelabel = strtrim(cellstr(num2str((1:nnode)')));
-Opt.rout = 1;
-Opt.rin = 0.25;
-Opt.rlabel = [1.0 1.1];
-Opt.axis = gca;
-Opt.nval = [];
-Opt.rnode = [1.025 1.075];
-Opt.nb = 20;
-Opt.texttype = 'simple';
-
-Opt = parsepv(Opt, varargin);
+p = inputParser;
+p.addParameter('nodelabel', strtrim(cellstr(num2str((1:nnode)'))));
+p.addParameter('rout', 1);
+p.addParameter('rin', 0.25);
+p.addParameter('rlabel', [1.0 1.1]);
+p.addParameter('axis', gca);
+p.addParameter('nval', []);
+p.addParameter('rnode', [1.025 1.075]);
+p.addParameter('nb', 20);
+p.addParameter('texttype', 'simple');
+p.parse(varargin{:});
+Opt = p.Results;
 
 %-----------------
 % Calculations
